@@ -4,6 +4,7 @@
   "description": "Stage 2 back-end main",
   "main": "index.js",
   "scripts": {
+    "lint": "npx eslint .",
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
