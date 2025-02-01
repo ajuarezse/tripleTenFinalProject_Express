@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint .",
-    "start": "nodemon index.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Angel Juarez",
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2"
