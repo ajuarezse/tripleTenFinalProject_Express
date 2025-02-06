@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 
-const lyric = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-});
+const lyricSchema = new mongoose.Schema({});
 
-module.exports = mongoose.model("lyrics", lyric);
+module.exports = mongoose.model("lyrics", lyricSchema);
