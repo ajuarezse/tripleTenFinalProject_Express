@@ -12,6 +12,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "https://example.com/default-avatar.png",
   },
+  location: {
+    type: String,
+    minLength: 2,
+    maxLength: 30,
+    required: true,
+  },
   bio: {
     type: String,
     maxLength: 500,
