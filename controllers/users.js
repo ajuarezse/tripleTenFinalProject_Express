@@ -1,3 +1,4 @@
+const user = require("../models/user");
 const User = require("../models/user");
 
 const getUsers = (req, res) => {
@@ -74,6 +75,23 @@ const updateUser = (req, res) => {
     });
 };
 
-const deleteUser = (req, res) => {};
+const deleteUser = (req, res) => {
+  const { userId } = req.params;
 
-module.exports = { getUsers, createUser, getUser, updateUser };
+  User.findByIdAndDelete(userId)
+    .then((user) => {
+      if (!user) {
+        return res.status(404).send({ message: "User not found" });
+      }
+      return res.status(200).send({ message: "User deleted successfully" });
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Invalid user ID format" });
+      }
+      return res.status(500).send({ message: "Internal server error" });
+    });
+};
+
+module.exports = { getUsers, createUser, getUser, updateUser, deleteUser };
