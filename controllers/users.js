@@ -81,16 +81,24 @@ const deleteUser = (req, res) => {
   User.findByIdAndDelete(userId)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res
+          .status(404)
+          .send({ success: false, message: "User not found" });
       }
-      return res.status(200).send({ message: "User deleted successfully" });
+      return res
+        .status(200)
+        .send({ success: true, message: "User deleted successfully" });
     })
     .catch((err) => {
-      console.error(err);
+      console.error(`Error deleting user with ID ${userId}:`, err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid user ID format" });
+        return res
+          .status(400)
+          .send({ success: false, message: "Invalid user ID format" });
       }
-      return res.status(500).send({ message: "Internal server error" });
+      return res
+        .status(500)
+        .send({ success: false, message: "Internal server error" });
     });
 };
 
