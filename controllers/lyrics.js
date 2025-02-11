@@ -28,7 +28,27 @@ const createLyrics = (req, res) => {
     });
 };
 
+// GET a single lyric by ID
+const getLyricById = (req, res) => {
+  const { lyricId } = req.params;
+  Lyric.findById(lyricId)
+    .then((lyric) => {
+      if (!lyric) {
+        return res.status(404).send({ message: "Lyric not found" });
+      }
+      return res.status(200).send(lyric);
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Invalid lyric ID format" });
+      }
+      return res.status(500).send({ message: "Internal server error" });
+    });
+};
+
 module.exports = {
   getLyrics,
   createLyrics,
+  getLyricById,
 };
