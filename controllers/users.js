@@ -10,14 +10,19 @@ const getUsers = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name } = req.body;
-  if (!name) {
-    return res.status(400).send({ message: "Name is required" });
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .send({ message: "Name, email, and password are required" });
   }
-  User.create({ name })
+  User.create({ name, email, password })
     .then((user) => res.status(201).send(user))
     .catch((err) => {
       console.error(err);
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
       return res.status(500).send({ message: "Internal server error" });
     });
 };
