@@ -53,11 +53,11 @@ const updateUser = (req, res) => {
     return res.status(400).send({ message: "Request body cannot be empty" });
   }
 
-  if (!name && !avatar && !location && !bio) {
-    return res.status(400).send({ message: "No fields provided to update" });
-  }
-
-  const updates = { name, avatar, location, bio };
+  const updates = {};
+  if (name) updates.name = name;
+  if (avatar) updates.avatar = avatar;
+  if (location) updates.location = location;
+  if (bio) updates.bio = bio;
 
   User.findByIdAndUpdate(userId, updates, { new: true, runValidators: true })
     .then((user) => {
@@ -74,6 +74,9 @@ const updateUser = (req, res) => {
       console.error(`Error updating user with ID ${userId}:`, err);
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Invalid user ID format" });
+      }
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: err.message });
       }
       return res.status(500).send({ message: "Internal server error" });
     });
